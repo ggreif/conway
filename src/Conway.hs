@@ -46,8 +46,10 @@ newtype ListZipperT w a = ListZipperT {
   runZipperT :: w (ListZipper a)
 }
 
+nest f = ListZipperT . f . runZipperT
+
 shiftT :: Functor w => Int -> ListZipperT w a -> ListZipperT w a
-shiftT i = ListZipperT . fmap (shift i) . runZipperT
+shiftT i = nest (fmap (shift i))
 
 instance Comonad w => Indexable (ListZipperT w) Int where
   z ! i = xs !! i' where
@@ -55,11 +57,11 @@ instance Comonad w => Indexable (ListZipperT w) Int where
     i' = (index + i) `mod` length xs
 
 instance Functor w => Functor (ListZipperT w) where
-  fmap f = ListZipperT . (fmap . fmap) f . runZipperT
+  fmap f = nest ((fmap . fmap) f)
 
 instance Comonad w => Comonad (ListZipperT w) where
   extract = extract . extract . runZipperT
-  extend f = ListZipperT . extend' f' . runZipperT where
+  extend f = nest (extend' f') where
     f' = f . ListZipperT
     extend' = extend . shifted
     shifted f wz = ListZipper xs' i where
