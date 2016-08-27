@@ -94,7 +94,7 @@ toList = list . fmap list . runZipperT
 
 
 -- demonstrate how lower and extract could have been used to index
--- along the two dimentions of the grid separately, instead of using
+-- along the two dimensions of the grid separately, instead of using
 -- the specialized 2D indexing above.
 
 index_horizontally :: Comonad w => Int -> ListZipperT w a -> a
