@@ -18,7 +18,7 @@ data ListZipper a = ListZipper { list :: [a]
                                } deriving Show
 
 shift :: Int -> ListZipper a -> ListZipper a
-shift i (z@ListZipper{..}) = z { index = index' `mod` n } where
+shift i z@ListZipper{..} = z { index = index' `mod` n } where
   n = length list
   index' = index + i
 
@@ -27,7 +27,7 @@ instance Indexable ListZipper Int where
     i' = (index + i) `mod` length list
 
 instance Functor ListZipper where
-  fmap f (z@ListZipper{..}) = z { list = fmap f list }
+  fmap f z@ListZipper{..} = z { list = fmap f list }
 
 instance Comonad ListZipper where
   -- inspect the current cell
