@@ -1,4 +1,4 @@
-{-# OPTIONS -XRecordWildCards -XMultiParamTypeClasses -XFlexibleInstances #-}
+{-# language RecordWildCards, MultiParamTypeClasses, FlexibleInstances #-}
 module Conway where
 
 import Control.Monad
